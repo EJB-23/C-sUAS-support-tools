@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1B2A3E">
+<title>JIATF-401 · C-UAS Training Package · §130i / §124n</title>
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET & VARIABLES
+═══════════════════════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --navy:#1B2A3E; --navy2:#243450; --steel:#2C5282; --blue:#3A6BAD;
+  --gold:#C9920A; --gold2:#E0A800; --red:#8B1A1A; --red2:#A52020;
+  --green:#1A5C2A; --green2:#22743A; --orange:#B85000; --orange2:#D06000;
+  --purple:#4A2070; --purple2:#5C2A88;
+  --lt-blue:#D6E8F5; --lt-green:#D4EBD9; --lt-red:#F0DADA;
+  --lt-gold:#FBF0D0; --lt-orange:#FBE8D4; --lt-purple:#EDE4F5; --lt-gray:#EEF1F5;
+  --white:#FFFFFF; --off-white:#F4F6FA;
+  --bf:'Trebuchet MS','Arial Narrow',Arial,sans-serif;
+  --hf:'Arial Black','Arial Bold','Franklin Gothic Medium',Arial,sans-serif;
+}
+html{
+  scroll-behavior:smooth;
+  background:#111 !important;
+  background-color:#111 !important;
+  min-height:100% !important;
+  min-height:-webkit-fill-available !important;
+}
+body{
+  font-family:var(--bf);
+  background:#111 !important;
+  background-color:#111 !important;
+  min-height:100vh;
+  min-height:-webkit-fill-available;
+  color:#1A1A1A;
+}
+:root{ background:#111 !important; }
+
+/* ═══════════════════════════════════════════════════════════
+APP SHELL — STICKY NAV
+═══════════════════════════════════════════════════════════ */
+.app-shell{display:flex;flex-direction:column;min-height:100vh;}
+
+.app-topbar{
+background:var(–navy);
+border-bottom:3px solid var(–gold);
+padding:0;
+position:sticky; top:0; z-index:200;
+box-shadow:0 2px 12px rgba(0,0,0,0.5);
+}
+.app-topbar::before{
+content:’’;position:absolute;inset:0;
+background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.018) 8px,rgba(255,255,255,0.018) 16px);
+pointer-events:none;
+}
+.topbar-inner{
+display:flex;align-items:stretch;
+max-width:1200px;margin:0 auto;
+position:relative;
+}
+.topbar-brand{
+padding:8px 16px;flex-shrink:0;
+display:flex;flex-direction:column;justify-content:center;
+border-right:1px solid rgba(255,255,255,0.1);
+}
+.brand-eyebrow{font-size:7px;color:var(–gold2);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;}
+.brand-title{font-family:var(–hf);font-size:14px;color:#fff;text-transform:uppercase;letter-spacing:0.5px;line-height:1.1;}
+.brand-title span{color:var(–gold2);}
+.brand-sub{font-size:7px;color:#7A90A8;margin-top:1px;}
+
+.tab-nav{display:flex;flex:1;align-items:stretch;}
+.tab-btn{
+flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+padding:10px 8px;cursor:pointer;border:none;background:transparent;
+font-family:var(–hf);font-size:10px;font-weight:900;color:rgba(255,255,255,0.5);
+text-transform:uppercase;letter-spacing:0.6px;
+border-bottom:3px solid transparent;margin-bottom:-3px;
+transition:all .2s;position:relative;
+-webkit-appearance:none;
+}
+.tab-btn .t-icon{font-size:16px;transition:transform .2s;}
+.tab-btn .t-label{display:flex;flex-direction:column;align-items:flex-start;text-align:left;}
+.tab-btn .t-sub{font-size:6.5px;font-weight:400;font-family:var(–bf);color:rgba(255,255,255,0.35);letter-spacing:0.3px;margin-top:1px;}
+.tab-btn.active{color:var(–gold2);border-bottom-color:var(–gold2);}
+.tab-btn.active .t-icon{transform:scale(1.1);}
+.tab-btn.active .t-sub{color:rgba(224,168,0,0.7);}
+.tab-btn:hover{color:rgba(255,255,255,0.8);}
+
+.topbar-badges{
+padding:6px 12px;display:flex;flex-direction:column;justify-content:center;
+gap:3px;flex-shrink:0;border-left:1px solid rgba(255,255,255,0.1);
+}
+.tbadge{
+font-size:6px;padding:2px 6px;border-radius:2px;
+letter-spacing:0.7px;font-weight:700;font-family:var(–bf);text-transform:uppercase;
+}
+.tbadge-g{background:var(–green2);color:#fff;}
+.tbadge-a{background:var(–gold);color:var(–navy);}
+
+/* ═══════════════════════════════════════════════════════════
+CONTENT PANELS
+═══════════════════════════════════════════════════════════ */
+.content-area{flex:1;}
+.panel{display:none;}
+.panel.active{display:block;}
+
+/* ═══════════════════════════════════════════════════════════
+SHARED DESIGN TOKENS — used by both guides
+═══════════════════════════════════════════════════════════ */
+.guide-wrap{
+max-width:1200px;margin:0 auto;
+padding:16px 12px 24px;
+display:flex;flex-direction:column;gap:0;
+}
+
+/* Page cards */
+.doc-page{
+background:var(–off-white);
+border-radius:6px;overflow:hidden;
+box-shadow:0 4px 20px rgba(0,0,0,0.35);
+}
+
+/* Master headers */
+.mhdr{
+background:var(–navy);padding:10px 16px 8px;
+display:flex;align-items:center;justify-content:space-between;
+border-bottom:3px solid var(–gold);position:relative;
+flex-wrap:wrap;gap:6px;
+}
+.mhdr::before{
+content:’’;position:absolute;inset:0;
+background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(255,255,255,0.018) 8px,rgba(255,255,255,0.018) 16px);
+pointer-events:none;
+}
+.mhdr-left{flex:1;position:relative;min-width:200px;}
+.mhdr-eyebrow{font-size:7px;color:var(–gold2);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;margin-bottom:2px;}
+.mhdr-title{font-family:var(–hf);font-size:20px;color:#fff;text-transform:uppercase;letter-spacing:0.5px;line-height:1.05;}
+.mhdr-title span{color:var(–gold2);}
+.mhdr-sub{font-size:8px;color:#8AAAC8;margin-top:3px;letter-spacing:0.3px;}
+.mhdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;position:relative;}
+.badge{font-size:6.5px;padding:2px 7px;border-radius:2px;letter-spacing:0.7px;font-weight:700;font-family:var(–bf);text-transform:uppercase;}
+.bg-g{background:var(–green2);color:#fff;}
+.bg-a{background:var(–gold);color:var(–navy);}
+.bg-o{background:var(–orange2);color:#fff;}
+
+/* Section label bars */
+.sec-lbl{
+padding:5px 14px 4px;font-family:var(–hf);font-size:10px;font-weight:900;
+letter-spacing:1.2px;text-transform:uppercase;display:flex;align-items:center;gap:8px;
+}
+.sl-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;flex-shrink:0;}
+.sl-prep{background:#1E3A5C;color:var(–gold2);border-bottom:2px solid var(–gold);}
+.sl-exec{background:#2A1010;color:#F0B080;border-bottom:2px solid var(–orange2);}
+.sl-follow{background:#0A2A18;color:#80D8A0;border-bottom:2px solid var(–green2);}
+
+/* Column grids — responsive */
+.cols1{display:grid;grid-template-columns:1fr;gap:0;background:#BCC8D8;}
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#BCC8D8;}
+.cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;background:#BCC8D8;}
+.cols4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:0;background:#BCC8D8;}
+.cols3>.col,.cols2>.col,.cols4>.col{border-right:2px solid #BCC8D8;}
+.cols3>.col:last-child,.cols2>.col:last-child,.cols4>.col:last-child{border-right:none;}
+.col{background:var(–off-white);}
+
+/* Column headers */
+.chdr{padding:7px 10px 6px;display:flex;align-items:center;gap:7px;}
+.chdr-icon{font-size:15px;opacity:0.9;}
+.chdr-title{font-family:var(–hf);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.6px;line-height:1.2;color:#fff;}
+.chdr-sub{font-size:6.8px;font-style:italic;color:rgba(255,255,255,0.6);margin-top:1px;font-family:var(–bf);}
+.chh-navy{background:var(–navy2);border-bottom:2px solid var(–gold);}
+.chh-steel{background:var(–steel);border-bottom:2px solid var(–gold2);}
+.chh-red{background:var(–red2);border-bottom:2px solid var(–gold2);}
+.chh-orange{background:var(–orange);border-bottom:2px solid var(–gold2);}
+.chh-green{background:var(–green2);border-bottom:2px solid var(–gold2);}
+.chh-purple{background:var(–purple2);border-bottom:2px solid var(–gold2);}
+
+/* Section blocks */
+.sb{margin:5px 6px;border-radius:3px;overflow:hidden;border:1px solid rgba(0,0,0,0.11);}
+.sbh{padding:4px 8px 3px;display:flex;align-items:center;gap:5px;}
+.sbh-ico{font-size:12px;flex-shrink:0;}
+.sbh-txt{font-family:var(–hf);font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;line-height:1.1;}
+.sbh-sub{font-size:6.8px;font-style:italic;margin-left:4px;font-family:var(–bf);opacity:0.82;}
+.sbhh-navy{background:var(–navy2);}  .sbhh-navy .sbh-txt,.sbhh-navy .sbh-sub{color:#fff;} .sbhh-navy .sbh-sub{color:#A0B8D0;}
+.sbhh-steel{background:var(–steel);} .sbhh-steel .sbh-txt{color:#fff;} .sbhh-steel .sbh-sub{color:#B8D0F0;}
+.sbhh-green{background:var(–green2);}  .sbhh-green .sbh-txt{color:#fff;} .sbhh-green .sbh-sub{color:#B0E0C0;}
+.sbhh-red{background:var(–red2);}   .sbhh-red .sbh-txt{color:#fff;}   .sbhh-red .sbh-sub{color:#F0C0C0;}
+.sbhh-orange{background:var(–orange);} .sbhh-orange .sbh-txt{color:#fff;} .sbhh-orange .sbh-sub{color:#FFD8B0;}
+.sbhh-gold{background:var(–gold);}  .sbhh-gold .sbh-txt{color:var(–navy);} .sbhh-gold .sbh-sub{color:#4A3000;}
+.sbhh-purple{background:var(–purple2);} .sbhh-purple .sbh-txt{color:#fff;} .sbhh-purple .sbh-sub{color:#D0B8F0;}
+.sbb{padding:5px 8px 6px;}
+.sb-blue{background:var(–lt-blue);} .sb-green{background:var(–lt-green);} .sb-red{background:var(–lt-red);}
+.sb-gold{background:var(–lt-gold);} .sb-orange{background:var(–lt-orange);} .sb-purple{background:var(–lt-purple);}
+.sb-gray{background:var(–lt-gray);} .sb-white{background:#fff;}
+
+/* Bullets */
+.bi{display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;line-height:1.35;}
+.bi:last-child{margin-bottom:0;}
+.bi-ico{flex-shrink:0;font-size:11px;width:14px;text-align:center;margin-top:1px;}
+.bi-lbl{font-family:var(–bf);font-size:7.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;}
+.bi-txt{font-family:var(–bf);font-size:7.3px;color:#222;line-height:1.4;}
+.cn{color:var(–navy2);} .cs{color:var(–steel);} .cg{color:var(–green);}
+.cr{color:var(–red2);} .co{color:var(–orange);} .cgo{color:#7A5800;} .cp{color:var(–purple2);}
+
+/* Alerts */
+.al{border-radius:3px;padding:4px 7px;display:flex;align-items:flex-start;gap:5px;font-size:7.2px;font-family:var(–bf);line-height:1.4;margin-bottom:4px;}
+.al:last-child{margin-bottom:0;}
+.al-ico{font-size:11px;flex-shrink:0;margin-top:1px;}
+.a-warn{background:#FBF0D0;border-left:3px solid var(–gold2);color:#5A4000;}
+.a-danger{background:var(–lt-red);border-left:3px solid var(–red2);color:#5A1010;}
+.a-info{background:var(–lt-blue);border-left:3px solid var(–steel);color:#1A3050;}
+.a-go{background:var(–lt-green);border-left:3px solid var(–green2);color:#0A3A18;}
+.a-orange{background:var(–lt-orange);border-left:3px solid var(–orange2);color:#4A2000;}
+
+/* Key factor bar */
+.kfbar{
+margin:4px 6px;background:var(–navy);border-radius:3px;padding:5px 9px;
+display:flex;align-items:flex-start;gap:6px;font-size:7px;font-family:var(–bf);
+color:#B0C4D8;line-height:1.45;border-left:3px solid var(–gold);
+}
+.kf-lbl{font-family:var(–hf);font-size:7.5px;font-weight:600;color:var(–gold2);text-transform:uppercase;letter-spacing:0.5px;white-space:nowrap;flex-shrink:0;}
+
+/* Illustration bars */
+.illus{height:48px;display:flex;align-items:flex-end;position:relative;overflow:hidden;}
+.illus-figs{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding:0 10px 3px;z-index:2;}
+.illus-sky{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:flex-end;justify-content:space-around;padding:0 8px;z-index:1;}
+.bldg{background:#0D1828;border-top:1px solid #1E3A5A;}
+
+/* Checklist */
+.cl{margin:2px 0;}
+.cl-i{display:flex;align-items:flex-start;gap:5px;padding:3px 0;border-bottom:1px solid rgba(0,0,0,0.07);font-size:7.3px;font-family:var(–bf);line-height:1.4;}
+.cl-i:last-child{border-bottom:none;}
+.cl-box{width:12px;height:12px;border:1.5px solid #8A9BB0;border-radius:2px;flex-shrink:0;margin-top:1px;background:#fff;}
+.cl-lbl{font-weight:700;color:var(–navy2);margin-right:3px;font-size:7px;text-transform:uppercase;}
+
+/* Decision tree */
+.dtree{margin:4px 0;}
+.dt-q{background:var(–navy2);color:#fff;padding:4px 9px;border-radius:3px 3px 0 0;font-family:var(–hf);font-size:8px;font-weight:700;letter-spacing:0.3px;}
+.dt-opts{display:grid;grid-template-columns:1fr 1fr;border:1px solid rgba(0,0,0,0.15);border-top:none;border-radius:0 0 3px 3px;overflow:hidden;}
+.dt-yes,.dt-no{padding:4px 7px;font-size:7.2px;font-family:var(–bf);line-height:1.4;}
+.dt-yes{background:#E4F0E4;border-right:1px solid rgba(0,0,0,0.1);}
+.dt-no{background:var(–lt-red);}
+.dt-ans{font-weight:700;font-size:7px;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;display:block;}
+.ay{color:var(–green);} .an{color:var(–red2);}
+
+/* Technique cards */
+.tc{background:#fff;border-radius:3px;border:1px solid rgba(0,0,0,0.12);margin-bottom:4px;overflow:hidden;}
+.tc:last-child{margin-bottom:0;}
+.tc-hdr{padding:3px 8px;display:flex;align-items:center;gap:6px;}
+.tc-rank{font-family:var(–hf);font-size:14px;font-weight:900;line-height:1;flex-shrink:0;width:22px;text-align:center;}
+.tc-lbl{flex:1;font-family:var(–hf);font-size:8.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;}
+.tc-tags{display:flex;gap:3px;flex-wrap:wrap;}
+.ttag{font-size:6px;font-weight:700;padding:1px 4px;border-radius:2px;text-transform:uppercase;letter-spacing:0.3px;font-family:var(–bf);}
+.tt-g12{background:var(–purple2);color:#fff;} .tt-g1{background:var(–steel);color:#fff;}
+.tt-g2{background:var(–red2);color:#fff;} .tt-both{background:var(–steel);color:#fff;}
+.tt-auth{background:var(–gold);color:var(–navy);} .tt-urb{background:var(–orange);color:#fff;}
+.tc-body{padding:3px 8px 5px;font-size:7.2px;font-family:var(–bf);line-height:1.4;color:#222;border-top:1px solid rgba(0,0,0,0.06);}
+.th-blue{background:#EEF5FC;} .th-blue .tc-rank,.th-blue .tc-lbl{color:var(–steel);}
+.th-red{background:var(–lt-red);} .th-red .tc-rank,.th-red .tc-lbl{color:var(–red2);}
+.th-green{background:var(–lt-green);} .th-green .tc-rank,.th-green .tc-lbl{color:var(–green);}
+.th-orange{background:var(–lt-orange);} .th-orange .tc-rank,.th-orange .tc-lbl{color:var(–orange);}
+.th-purple{background:var(–lt-purple);} .th-purple .tc-rank,.th-purple .tc-lbl{color:var(–purple2);}
+.th-gold{background:var(–lt-gold);} .th-gold .tc-rank,.th-gold .tc-lbl{color:#7A5800;}
+
+/* Matrix table */
+.mx{width:100%;border-collapse:collapse;font-size:7px;font-family:var(–bf);}
+.mx th{padding:3px 4px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;font-size:6.5px;text-align:center;}
+.mx td{padding:3px 4px;border:1px solid rgba(0,0,0,0.1);vertical-align:middle;text-align:center;line-height:1.3;}
+.mth-n{background:var(–navy2);color:#fff;} .mth-s{background:var(–steel);color:#fff;} .mth-r{background:var(–red2);color:#fff;}
+.mt-l{text-align:left;font-weight:700;font-size:6.8px;color:var(–navy2);}
+.mt-g{background:#C8E8CC;color:var(–green);font-weight:700;}
+.mt-y{background:#FBF0D0;color:#7A5000;font-weight:700;}
+.mt-r{background:#F0DADA;color:var(–red2);font-weight:700;}
+
+/* Threat cards */
+.threat-card{border-radius:4px;overflow:hidden;border:2px solid;margin-bottom:5px;}
+.threat-card:last-child{margin-bottom:0;}
+.tcard-hdr{padding:5px 9px 4px;display:flex;align-items:center;gap:8px;}
+.tcard-badge{font-family:var(–hf);font-size:18px;font-weight:900;line-height:1;flex-shrink:0;}
+.tcard-info{flex:1;}
+.tcard-title{font-family:var(–hf);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:0.5px;}
+.tcard-sub{font-size:7px;font-style:italic;opacity:0.85;font-family:var(–bf);}
+.tcard-specs{display:flex;gap:5px;margin-top:3px;flex-wrap:wrap;}
+.spec{font-size:6.5px;font-weight:700;padding:1px 5px;border-radius:2px;text-transform:uppercase;letter-spacing:0.3px;font-family:var(–bf);}
+.tcard-body{padding:5px 9px 6px;font-size:7.3px;font-family:var(–bf);line-height:1.4;}
+.tc-g1{border-color:var(–steel);} .tc-g1 .tcard-hdr{background:var(–steel);} .tc-g1 .tcard-badge{color:var(–gold2);} .tc-g1 .tcard-title{color:#fff;} .tc-g1 .tcard-sub{color:#B8D0F0;} .tc-g1 .tcard-body{background:var(–lt-blue);}
+.tc-g2{border-color:var(–red2);}  .tc-g2 .tcard-hdr{background:var(–red2);}  .tc-g2 .tcard-badge{color:#FFD080;} .tc-g2 .tcard-title{color:#fff;} .tc-g2 .tcard-sub{color:#F0C0C0;} .tc-g2 .tcard-body{background:var(–lt-red);}
+.chip-g1{background:var(–navy2);color:var(–gold2);} .chip-g2{background:#5A1010;color:#FFD080;} .chip-n{background:#4A5A6A;color:#fff;}
+
+/* Auth table */
+.auth-tbl{width:100%;border-collapse:collapse;font-size:7px;font-family:var(–bf);}
+.auth-tbl th{padding:3px 5px;font-weight:700;text-transform:uppercase;letter-spacing:0.3px;font-size:6.8px;text-align:left;}
+.th-lbl{background:#D0D8E4;color:var(–navy);width:75px;}
+.th-dod{background:var(–navy2);color:#fff;}
+.th-dhs{background:var(–green2);color:#fff;}
+.auth-tbl td{padding:3px 5px;vertical-align:top;border-bottom:1px solid rgba(0,0,0,0.08);line-height:1.35;}
+.td-lbl{background:#E0E8F0;font-weight:700;color:var(–navy2);font-size:6.8px;}
+.td-dod{background:#EEF3FA;} .td-dhs{background:#EDF5EE;}
+.auth-tbl tr:last-child td{border-bottom:none;}
+
+/* Coord matrix */
+.coord-row{display:flex;align-items:stretch;border-bottom:1px solid rgba(0,0,0,0.1);font-size:7.3px;font-family:var(–bf);line-height:1.4;}
+.coord-row:last-child{border-bottom:none;}
+.coord-ag{padding:4px 5px;font-weight:700;font-size:6.8px;text-transform:uppercase;letter-spacing:0.3px;display:flex;align-items:center;justify-content:center;text-align:center;min-width:52px;width:52px;flex-shrink:0;}
+.coord-bd{padding:4px 7px;flex:1;}
+.ca-faa{background:#1A3A6A;color:#fff;} .ca-fbi{background:#5A0000;color:#fff;}
+.ca-sta{background:#1A5A3A;color:#fff;} .ca-icc{background:#5A4000;color:#fff;} .ca-jag{background:#3A3A7A;color:#fff;}
+
+/* Phase flow */
+.phase-blk{margin:5px 6px;border-radius:4px;overflow:hidden;border:1px solid rgba(0,0,0,0.12);}
+.phase-hdr{background:var(–navy2);padding:6px 10px 5px;display:flex;align-items:center;gap:8px;border-bottom:2px solid var(–gold);}
+.ph-num{width:22px;height:22px;background:var(–gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(–hf);font-size:12px;font-weight:700;color:var(–navy);flex-shrink:0;}
+.ph-title{font-family:var(–hf);font-size:11px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:0.8px;line-height:1;}
+.ph-sub{font-family:var(–bf);font-size:7px;color:var(–gold2);font-style:italic;margin-top:1px;}
+.pb-body{padding:6px 9px 7px;}
+.pb1{background:#E8EFF8;} .pb2{background:#E4EDE4;} .pb3{background:#F5E8E8;}
+
+/* Rep items */
+.rep-item{background:#fff;border-radius:3px;border:1px solid #C8D4E0;padding:4px 7px;margin-bottom:4px;font-size:7.3px;font-family:var(–bf);line-height:1.4;}
+.rep-item:last-child{margin-bottom:0;}
+.rep-lbl{font-weight:700;text-transform:uppercase;font-size:6.8px;letter-spacing:0.4px;margin-bottom:2px;}
+
+/* Urban cards */
+.urban-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:2px;}
+.uc{background:#fff;border-radius:3px;border:1px solid #C8D4E4;padding:4px 6px;font-size:7px;font-family:var(–bf);line-height:1.4;}
+.uc-icon{font-size:13px;display:block;margin-bottom:2px;}
+.uc-title{font-weight:700;color:var(–navy2);font-size:7px;text-transform:uppercase;letter-spacing:0.3px;}
+
+/* Timeline */
+.tl-step{display:flex;align-items:flex-start;gap:7px;margin-bottom:5px;position:relative;}
+.tl-step:last-child{margin-bottom:0;}
+.tl-step::after{content:’’;position:absolute;left:11px;top:22px;bottom:-5px;width:2px;background:rgba(0,0,0,0.12);}
+.tl-step:last-child::after{display:none;}
+.tl-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(–hf);font-size:10px;font-weight:900;flex-shrink:0;position:relative;z-index:1;}
+.tl-title{font-family:var(–hf);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:2px;}
+.tl-body{font-size:7.2px;font-family:var(–bf);line-height:1.4;color:#222;}
+
+/* ROE box */
+.roe-box{background:var(–navy2);border-radius:3px;padding:5px 9px;margin:4px 6px;border-left:3px solid var(–gold2);}
+.roe-title{font-family:var(–hf);font-size:8px;font-weight:700;color:var(–gold2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;}
+.roe-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.roe-i{background:rgba(255,255,255,0.07);border-radius:2px;padding:3px 6px;font-size:7px;font-family:var(–bf);color:#C0D4E8;line-height:1.4;}
+.roe-i strong{color:var(–gold2);font-size:6.8px;text-transform:uppercase;display:block;}
+
+/* Connector arrow */
+.conn{text-align:center;font-size:9px;color:var(–gold);margin:1px 0;font-weight:900;}
+
+/* Footer */
+.doc-footer{background:var(–navy);border-top:2px solid var(–gold);padding:4px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;}
+.df-l,.df-r{font-size:6.5px;color:#7A90A8;font-family:var(–bf);}
+.df-c{font-size:6.5px;color:#5A7090;font-family:var(–bf);letter-spacing:0.4px;text-align:center;flex:1;}
+
+/* Page label banner */
+.page-banner{
+background:linear-gradient(135deg,var(–navy2),#1A3A6A);
+padding:6px 16px;display:flex;align-items:center;gap:10px;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+.pb-num{font-family:var(–hf);font-size:9px;color:var(–gold2);letter-spacing:1px;text-transform:uppercase;}
+.pb-title{font-family:var(–hf);font-size:10px;color:#fff;text-transform:uppercase;letter-spacing:0.5px;}
+.pb-sep{color:rgba(255,255,255,0.2);font-size:10px;}
+
+/* ═══════════════════════════════════════════════════════════
+MOBILE RESPONSIVE BREAKPOINTS
+═══════════════════════════════════════════════════════════ */
+@media(max-width:900px){
+.cols4{grid-template-columns:1fr 1fr;}
+.cols4>.col{border-bottom:2px solid #BCC8D8;}
+.cols4>.col:nth-child(2n){border-right:none;}
+.cols4>.col:nth-last-child(-n+2){border-bottom:none;}
+}
+@media(max-width:720px){
+.cols3{grid-template-columns:1fr;}
+.cols3>.col{border-right:none;border-bottom:2px solid #BCC8D8;}
+.cols3>.col:last-child{border-bottom:none;}
+.cols2{grid-template-columns:1fr;}
+.cols2>.col{border-right:none;border-bottom:2px solid #BCC8D8;}
+.cols2>.col:last-child{border-bottom:none;}
+.cols4{grid-template-columns:1fr;}
+.cols4>.col{border-right:none;border-bottom:2px solid #BCC8D8;}
+.cols4>.col:last-child{border-bottom:none;}
+.mhdr-title{font-size:15px;}
+.mhdr-sub{font-size:7px;}
+.dt-opts{grid-template-columns:1fr;}
+.dt-yes{border-right:none;border-bottom:1px solid rgba(0,0,0,0.1);}
+.roe-grid{grid-template-columns:1fr;}
+.urban-grid{grid-template-columns:1fr 1fr;}
+.auth-tbl{font-size:6.5px;}
+.guide-wrap{padding:10px 8px 20px;}
+.topbar-brand{padding:6px 10px;}
+.brand-title{font-size:11px;}
+.tab-btn{font-size:8px;padding:8px 5px;}
+.tab-btn .t-sub{display:none;}
+.topbar-badges{display:none;}
+}
+@media(max-width:480px){
+.mhdr{padding:8px 10px 6px;}
+.mhdr-title{font-size:13px;}
+.mhdr-right{flex-direction:row;flex-wrap:wrap;justify-content:flex-end;}
+.guide-wrap{padding:8px 6px 20px;}
+.illus{height:36px;}
+.bi-lbl,.bi-txt{font-size:8px;}
+.sbh-txt{font-size:9px;}
+.chdr-title{font-size:10.5px;}
+.phase-hdr .ph-title{font-size:10.5px;}
+.tc-lbl{font-size:9px;}
+.tc-body{font-size:8px;}
+.auth-tbl th,.auth-tbl td{font-size:7.5px;padding:4px;}
+}
+@media(min-width:1200px){
+.mhdr-title{font-size:22px;}
+.bi-lbl{font-size:8px;} .bi-txt{font-size:7.8px;}
+}
+
+/* Print styles */
+@media print{
+.app-topbar{display:none;}
+.panel{display:block!important;}
+.doc-page{box-shadow:none;margin-bottom:20px;}
+body{background:#fff;}
+}
+</style>
+
+</head>
+<body bgcolor="#111111" style="background:#111111;background-color:#111111;margin:0;padding:0;">
+<div style="width:100%;min-height:100vh;background:#111111;background-color:#111111;display:block;">
+<div class="app-shell" style="background:#111111;background-color:#111111;min-height:100vh;">
+
+<!-- ══ STICKY APP NAV ══ -->
+
+<div class="app-topbar">
+  <div class="topbar-inner">
+    <div class="topbar-brand">
+      <div class="brand-eyebrow">JIATF-401 · Training Package</div>
+      <div class="brand-title">C-UAS <span>Urban</span> Defense</div>
+      <div class="brand-sub">§130i · §124n · Grp 1 &amp; 2</div>
+    </div>
+    <div class="tab-nav">
+      <button class="tab-btn active" onclick="switchTab('fg',this)">
+        <span class="t-icon">🗺</span>
+        <div class="t-label">
+          Field Guide
+          <span class="t-sub">Authority Framework · Engagement Cycle</span>
+        </div>
+      </button>
+      <button class="tab-btn" onclick="switchTab('cdsg',this)">
+        <span class="t-icon">🎯</span>
+        <div class="t-label">
+          Commander's Guide
+          <span class="t-sub">Decision Support · Grp 1 &amp; 2 Defeat</span>
+        </div>
+      </button>
+    </div>
+    <div class="topbar-badges">
+      <span class="tbadge tbadge-g">✓ UNCLASSIFIED</span>
+      <span class="tbadge tbadge-a">TRAINING USE ONLY</span>
+    </div>
+  </div>
+</div>
+
+<div class="content-area" style="background:#111111;background-color:#111111;">
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL 1 — FIELD GUIDE
+════════════════════════════════════════════════════════ -->
+
+<div id="panel-fg" class="panel active">
+<div class="guide-wrap" style="background:#111111;background-color:#111111;padding:16px 12px 24px;display:flex;flex-direction:column;gap:16px;">
+<div class="doc-page">
+
+  <div class="mhdr">
+    <div class="mhdr-left">
+      <div class="mhdr-eyebrow">⬡ JIATF-401 · Series 1 of 2 · Interagency Tactical Field Guide</div>
+      <div class="mhdr-title">C-UAS Fixed Site Defense: <span>Interagency</span> Tactical Field Guide</div>
+      <div class="mhdr-sub">10 U.S.C. §130i (DoD — Facilities &amp; Assets) · 6 U.S.C. §124n (DHS Authority) · Urban / Populated Environment · Joint Interagency Task Force – 401</div>
+    </div>
+    <div class="mhdr-right">
+      <span class="badge bg-g">✓ UNCLASSIFIED</span>
+      <span class="badge bg-a">TRAINING USE ONLY</span>
+    </div>
+  </div>
+
+  <!-- THREE COLUMNS -->
+
+  <div class="cols3">
+
+```
+<!-- COL 1: AUTHORITY & PREPARATION -->
+<div class="col">
+  <div class="chdr chh-navy">
+    <span class="chdr-icon">🏛</span>
+    <div><div class="chdr-title">Authority &amp; Preparation: Statutory Framework</div></div>
+  </div>
+  <div class="illus" style="background:linear-gradient(180deg,#1B2A3E 0%,#0D1828 100%);">
+    <div class="illus-figs">
+      <span style="font-size:26px;filter:brightness(0) invert(0.2);">🪖</span>
+      <span style="font-size:26px;filter:brightness(0) invert(0.2);">🪖</span>
+      <span style="font-size:24px;filter:brightness(0) invert(0.2);">🚁</span>
+      <span style="font-size:20px;filter:brightness(0) invert(0.25);">🏛</span>
+      <span style="font-size:26px;filter:brightness(0) invert(0.2);">🪖</span>
+      <span style="font-size:22px;filter:brightness(0) invert(0.2);">📡</span>
+    </div>
+    <div class="illus-sky">
+      <div class="bldg" style="width:16px;height:20px;"></div><div class="bldg" style="width:10px;height:28px;"></div>
+      <div class="bldg" style="width:20px;height:16px;"></div><div class="bldg" style="width:10px;height:23px;"></div>
+      <div class="bldg" style="width:24px;height:14px;"></div><div class="bldg" style="width:12px;height:26px;"></div>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sbh sbhh-navy"><span class="sbh-ico">⚖️</span><span class="sbh-txt">Statutory Authority Comparison</span><span class="sbh-sub">— Know Your Lane Before You Act</span></div>
+    <div class="sbb sb-gray" style="padding:4px 5px;">
+      <table class="auth-tbl">
+        <thead><tr><th class="th-lbl">Element</th><th class="th-dod">10 U.S.C. §130i — DoD</th><th class="th-dhs">6 U.S.C. §124n — DHS</th></tr></thead>
+        <tbody>
+          <tr><td class="td-lbl">Grantor</td><td class="td-dod">Secretary of Defense</td><td class="td-dhs">Secretary of Homeland Security</td></tr>
+          <tr><td class="td-lbl">Covered Space</td><td class="td-dod">DoD installations, ranges, depots, ships, aircraft, and other assets &amp; facilities designated by SecDef under 10 U.S.C. §130i</td><td class="td-dhs">DHS facilities: USSS protective sites, CBP ports of entry, FEMA assets, TSA, USCG</td></tr>
+          <tr><td class="td-lbl">Detect / ID / Monitor</td><td class="td-dod">✔ Authorized</td><td class="td-dhs">✔ Authorized</td></tr>
+          <tr><td class="td-lbl">Warn / Disrupt (EW)</td><td class="td-dod">✔ SecDef may delegate to installation commanders</td><td class="td-dhs">✔ SecDHS delegates to component heads (USSS, CBP, TSA, USCG)</td></tr>
+          <tr><td class="td-lbl">Kinetic Mitigation</td><td class="td-dod">✔ With proper delegation &amp; ROE compliance</td><td class="td-dhs">⚠ Requires specific SecDHS designation &amp; coordination</td></tr>
+          <tr><td class="td-lbl">FAA Coordination</td><td class="td-dod" colspan="2" style="text-align:center;font-weight:700;color:#1A3A6A;font-size:6.5px;">MANDATORY FOR BOTH AUTHORITIES — PRIMARY AIRSPACE AUTHORITY</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sbh sbhh-steel"><span class="sbh-ico">👥</span><span class="sbh-txt">Fixed Site Defense Cell Structure</span><span class="sbh-sub">— 4–6 Person Urban Cell</span></div>
+    <div class="sbb sb-blue">
+      <div class="bi"><span class="bi-ico">🎯</span><div><span class="bi-lbl cn">Site Commander / C2 —</span><span class="bi-txt"> Holds mitigation authority delegation. §130i or §124n determination. Single POC to FAA &amp; FBI.</span></div></div>
+      <div class="bi"><span class="bi-ico">📡</span><div><span class="bi-lbl cs">RF Detection Specialist —</span><span class="bi-txt"> RF spectrum monitoring, UAS emission ID, EW operator. Urban clutter deconfliction.</span></div></div>
+      <div class="bi"><span class="bi-ico">🔭</span><div><span class="bi-lbl cs">EO/IR Observer —</span><span class="bi-txt"> Optical &amp; thermal surveillance from elevated positions. Vertical scanning: rooftops, balconies, windows.</span></div></div>
+      <div class="bi"><span class="bi-ico">⚖️</span><div><span class="bi-lbl cn">Legal / Interagency Liaison —</span><span class="bi-txt"> JAG (DoD) or Chief Counsel (DHS). Real-time authority deconfliction. §130i ↔ §124n handoff coordination.</span></div></div>
+      <div class="bi"><span class="bi-ico">🚔</span><div><span class="bi-lbl cg">LE Coordination Cell —</span><span class="bi-txt"> State/local police liaison. Perimeter security. Criminal nexus escalation to FBI. Pre-established MOU/MOA required.</span></div></div>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sbh sbhh-gold"><span class="sbh-ico">📶</span><span class="sbh-txt">Multi-Layered Detection (Urban Adapted)</span><span class="sbh-sub">— Signal Clutter + Reflections + Civilian Interference</span></div>
+    <div class="sbb sb-gold">
+      <div class="bi"><span class="bi-ico">📻</span><div><span class="bi-lbl cgo">RF Spectrum Monitoring —</span><span class="bi-txt"> Priority in dense RF environments. Distinguish UAS from civilian Wi-Fi, cellular, ISM bands.</span></div></div>
+      <div class="bi"><span class="bi-ico">📷</span><div><span class="bi-lbl cgo">Optical Surveillance —</span><span class="bi-txt"> Rooftop / elevated positions. Compensate for line-of-sight building masking.</span></div></div>
+      <div class="bi"><span class="bi-ico">🌡</span><div><span class="bi-lbl cgo">Thermal Imaging —</span><span class="bi-txt"> Night &amp; low visibility. Distinguish UAS heat signature from ambient sources.</span></div></div>
+      <div class="bi"><span class="bi-ico">🛰</span><div><span class="bi-lbl cgo">GNSS Interference Monitoring —</span><span class="bi-txt"> Detect spoofing/jamming masking UAS approach. Alert FAA immediately if detected.</span></div></div>
+      <div class="bi"><span class="bi-ico">🎙</span><div><span class="bi-lbl cgo">Acoustic Sensors —</span><span class="bi-txt"> Limited utility in high urban noise. Use as supplemental cueing only. Do not rely as primary sensor.</span></div></div>
+    </div>
+  </div>
+
+  <div class="kfbar"><span class="kf-lbl">⚠ Urban Key Factor:</span><span> Buildings create blind spots &amp; signal multipath. Detection MUST include vertical scanning of rooftops, balconies, and windows. Use elevation to compensate for LoS limitations.</span></div>
+</div>
+
+<!-- COL 2: ENGAGEMENT CYCLE -->
+<div class="col">
+  <div class="chdr chh-steel">
+    <span class="chdr-icon">⚙️</span>
+    <div><div class="chdr-title">Execution: Interagency Engagement Cycle</div></div>
+  </div>
+  <div class="illus" style="background:linear-gradient(180deg,#243450 0%,#0D1828 100%);">
+    <div class="illus-figs">
+      <span style="font-size:20px;filter:brightness(0) invert(0.3);">🚁</span>
+      <span style="font-size:18px;color:#E0A800;opacity:0.7;">📡</span>
+      <span style="font-size:22px;filter:brightness(0) invert(0.2);">🏢</span>
+      <span style="font-size:16px;color:#E0A800;opacity:0.8;">⚡</span>
+      <span style="font-size:20px;filter:brightness(0) invert(0.3);">🚁</span>
+    </div>
+    <div class="illus-sky">
+      <div class="bldg" style="width:18px;height:22px;"></div><div class="bldg" style="width:12px;height:30px;"></div>
+      <div class="bldg" style="width:26px;height:14px;"></div><div class="bldg" style="width:10px;height:24px;"></div>
+      <div class="bldg" style="width:16px;height:18px;"></div>
+    </div>
+  </div>
+
+  <div class="phase-blk">
+    <div class="phase-hdr"><div class="ph-num">1</div><div><div class="ph-title">DETECT <span style="color:#A0B8D0;font-size:9px;font-style:italic;font-family:var(--bf);font-weight:400;"> — Early &amp; Discreet</span></div><div class="ph-sub">Identify anomalous RF emissions · Monitor unusual flight behavior</div></div></div>
+    <div class="pb-body pb1">
+      <div class="bi"><span class="bi-ico">📻</span><div><span class="bi-lbl cn">RF Anomaly Detection —</span><span class="bi-txt"> Identify UAS control link frequencies. Flag anomalous ISM band activity. Urban multipath requires signal triangulation. Note: tethered and fly-by-wire UAS produce no RF — supplement with EO/IR and acoustic sensors.</span></div></div>
+      <div class="bi"><span class="bi-ico">🔭</span><div><span class="bi-lbl cn">Visual / Thermal Cueing —</span><span class="bi-txt"> Monitor unusual flight behavior between buildings. Use elevation to compensate for LoS gaps.</span></div></div>
+      <div class="bi"><span class="bi-ico">🛰</span><div><span class="bi-lbl cn">GNSS Monitoring —</span><span class="bi-txt"> Detect spoofing/interference concurrent with UAS activity. Alert FAA ATCSCC if NAS impact suspected.</span></div></div>
+    </div>
+  </div>
+
+  <div class="conn">▼</div>
+
+  <div class="phase-blk">
+    <div class="phase-hdr" style="border-bottom-color:var(--green2);"><div class="ph-num" style="background:var(--green2);color:#fff;">2</div><div><div class="ph-title">IDENTIFY &amp; DECONFLICT <span style="color:#A0C8B0;font-size:9px;font-style:italic;font-family:var(--bf);font-weight:400;"> — Authority First</span></div><div class="ph-sub" style="color:#7EC89A;">Confirm authorization status · Determine jurisdiction before any action</div></div></div>
+    <div class="pb-body pb2">
+      <div class="bi"><span class="bi-ico">✅</span><div><span class="bi-lbl cg">Confirm Authorization —</span><span class="bi-txt"> Valid COA? LAANC clearance? Federal mission authorization? Check NOTAM active status with FAA.</span></div></div>
+      <div class="bi"><span class="bi-ico">⚖️</span><div><span class="bi-lbl cg">Determine Jurisdiction —</span><span class="bi-txt"> Is the UAS over §130i-covered (DoD) or §124n-covered (DHS) space — or is it transiting between both?</span></div></div>
+      <div class="bi"><span class="bi-ico">📞</span><div><span class="bi-lbl cg">Mandatory Notifications —</span><span class="bi-txt"> Notify: <strong>FAA ATCSCC</strong> (airspace) · <strong>FBI/DOJ</strong> (criminal nexus) · <strong>State/Local LE</strong> (public safety).</span></div></div>
+      <div class="al a-warn" style="margin-top:4px;"><span class="al-ico">⚠</span><span><strong>§130i ↔ §124n Handoff:</strong> When threat transits between DoD and DHS jurisdictional space, the pre-designated Interagency Coordination Cell (ICC) manages authority transfer in real time. Do not act without confirmed authority.</span></div>
+    </div>
+  </div>
+
+  <div class="conn">▼</div>
+
+  <div class="phase-blk">
+    <div class="phase-hdr" style="border-bottom-color:var(--red2);"><div class="ph-num" style="background:var(--red2);color:#fff;">3</div><div><div class="ph-title">MITIGATE <span style="color:#D09090;font-size:9px;font-style:italic;font-family:var(--bf);font-weight:400;"> — Controlled &amp; Proportional</span></div><div class="ph-sub" style="color:#E09090;">Apply directional measures · Avoid broad-spectrum in dense infrastructure zones</div></div></div>
+    <div class="pb-body pb3">
+      <div class="bi"><span class="bi-ico">📶</span><div><span class="bi-lbl cr">Directed RF Disruption —</span><span class="bi-txt"> Narrowband jamming where authorized. Avoid broad-spectrum near hospitals, emergency comms, and telecom infrastructure.</span></div></div>
+      <div class="bi"><span class="bi-ico">🛰</span><div><span class="bi-lbl cr">GNSS Denial / Spoofing —</span><span class="bi-txt"> Only where authorized by SecDef/SecDHS delegation AND FAA coordination is complete. Document all actions.</span></div></div>
+      <div class="bi"><span class="bi-ico">🎯</span><div><span class="bi-lbl cr">Physical / Kinetic —</span><span class="bi-txt"> Last resort. Requires command authority, clear airspace, ROE compliance. Urban backdrop must be confirmed clear.</span></div></div>
+      <div class="al a-danger" style="margin-top:4px;"><span class="al-ico">🚨</span><span><strong>Assess risk before ANY mitigation:</strong> Emergency services · Hospitals · Telecom infrastructure · GPS-dependent transport · Civilian presence · Media visibility · Legal constraints.</span></div>
+    </div>
+  </div>
+
+  <div class="kfbar"><span class="kf-lbl">📋 Key Factor:</span><span> Mitigation authority is NOT automatic. Verify §130i or §124n delegation is in effect, FAA coordination is complete, and ROE compliance confirmed before any active countermeasure.</span></div>
+</div>
+
+<!-- COL 3: COORDINATION & SURVIVABILITY -->
+<div class="col">
+  <div class="chdr chh-red">
+    <span class="chdr-icon">🔗</span>
+    <div><div class="chdr-title">Coordination, Reporting &amp; Survivability</div></div>
+  </div>
+  <div class="illus" style="background:linear-gradient(180deg,#2A1010 0%,#0D1010 100%);">
+    <div class="illus-figs">
+      <span style="font-size:22px;filter:brightness(0) invert(0.2);">🪖</span>
+      <span style="font-size:18px;color:#8B1A1A;opacity:0.8;">📡</span>
+      <span style="font-size:20px;filter:brightness(0) invert(0.25);">🚔</span>
+      <span style="font-size:16px;color:#B8860B;opacity:0.9;">⚡</span>
+      <span style="font-size:22px;filter:brightness(0) invert(0.2);">🏛</span>
+    </div>
+    <div class="illus-sky">
+      <div class="bldg" style="width:14px;height:24px;"></div><div class="bldg" style="width:22px;height:16px;"></div>
+      <div class="bldg" style="width:10px;height:28px;"></div><div class="bldg" style="width:18px;height:20px;"></div>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sbh sbhh-red"><span class="sbh-ico">🤝</span><span class="sbh-txt">Interagency Coordination Matrix</span><span class="sbh-sub">— Pre-establish relationships before incident</span></div>
+    <div class="sbb sb-red" style="padding:4px 5px;">
+      <div class="coord-row"><div class="coord-ag ca-faa">FAA<br>ATCSCC</div><div class="coord-bd"><strong>Mandatory notification</strong> before active mitigation. Coordinate COA, NOTAM, and TFR. Immediate alert if GNSS interference detected. Primary airspace authority — no mitigation without FAA coordination.</div></div>
+      <div class="coord-row"><div class="coord-ag ca-fbi">FBI /<br>DOJ</div><div class="coord-bd"><strong>Criminal nexus determination.</strong> FBI assumes Lead Federal Agency (LFA) role if hostile actor involved. Coordinate evidence preservation. Do not destroy UAS if criminal investigation likely.</div></div>
+      <div class="coord-row"><div class="coord-ag ca-sta">State /<br>Local LE</div><div class="coord-bd"><strong>Pre-established MOU/MOA required.</strong> Perimeter security, public safety corridors, civilian evacuation. Jurisdiction boundary awareness critical at urban environments and high-traffic areas.</div></div>
+      <div class="coord-row"><div class="coord-ag ca-icc">ICC<br>§130i↔<br>§124n</div><div class="coord-bd"><strong>Interagency Coordination Cell:</strong> Manages real-time authority handoff when UAS transits DoD ↔ DHS jurisdictional space. Must be pre-designated and staffed before any incident.</div></div>
+      <div class="coord-row" style="border-bottom:none;"><div class="coord-ag ca-jag">JAG /<br>Counsel</div><div class="coord-bd"><strong>All mitigation actions reviewed</strong> within 24 hrs by JAG (DoD) or Chief Counsel (DHS). Real-time legal consult available to site commander. Congressional notification chain required.</div></div>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sbh sbhh-navy"><span class="sbh-ico">📋</span><span class="sbh-txt">Post-Incident Reporting Requirements</span></div>
+    <div class="sbb sb-gray">
+      <div class="rep-item"><div class="rep-lbl" style="color:#8B1A1A;">⏱ INTREP — Within 1 Hour</div>Submit Incident Report: time, location, UAS description, threat assessment, action taken, collateral effects, and authority exercised (§130i or §124n).</div>
+      <div class="rep-item"><div class="rep-lbl" style="color:#1A3A6A;">✈ FAA Notification — Immediate</div>Notify FAA upon any RF mitigation affecting the NAS. Include: frequencies affected, duration, geographic area, and mitigation type.</div>
+      <div class="rep-item"><div class="rep-lbl" style="color:#1A5C2A;">⚖ Legal Review — Within 24 Hours</div>JAG (DoD) or Chief Counsel (DHS) reviews all mitigation actions. Document proportionality determination and authority basis for each action taken.</div>
+      <div class="rep-item"><div class="rep-lbl" style="color:#5A4000;">🏛 Congressional Notification</div>SecDef / SecDHS statutory obligation to report §130i / §124n actions to Congress. Unit commanders feed accuracy into upward reporting chain promptly.</div>
+    </div>
+  </div>
+
+  <div class="sb">
+    <div class="sbh sbhh-orange"><span class="sbh-ico">🛡</span><span class="sbh-txt">Survivability &amp; Urban Protection Principles</span></div>
+    <div class="sbb sb-gray">
+      <div class="urban-grid">
+        <div class="uc"><span class="uc-icon">📡</span><span class="uc-title">Electronic Signature</span><br>C-UAS systems emit detectable RF. Reposition after active emissions. Signal reflections amplify detectability in urban canyons.</div>
+        <div class="uc"><span class="uc-icon">🏗</span><span class="uc-title">Structural Cover</span><br>Operate from hardened positions. Assume adversary UAS carries EO/IR payload and can surveil your position.</div>
+        <div class="uc"><span class="uc-icon">🔀</span><span class="uc-title">Act, Reposition, Reassess</span><br>Urban terrain is dynamic. Change position after each electronic emission. Avoid pattern predictability.</div>
+        <div class="uc"><span class="uc-icon">👁</span><span class="uc-title">Layered Overwatch</span><br>No single sensor covers all azimuths &amp; elevations. Maintain overlapping multi-sensor coverage across team.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb" style="margin-bottom:5px;">
+    <div class="sbh sbhh-navy"><span class="sbh-ico">🌆</span><span class="sbh-txt">Urban Notes: Populated Environment Factors</span></div>
+    <div class="sbb sb-blue">
+      <div class="bi"><span class="bi-ico">👥</span><div><span class="bi-lbl cn">Civilian Presence —</span><span class="bi-txt"> Non-combatant proximity limits all mitigation options. Broad-spectrum jamming prohibited near hospitals, emergency services, and telecom nodes.</span></div></div>
+      <div class="bi"><span class="bi-ico">📰</span><div><span class="bi-lbl cn">Media Visibility —</span><span class="bi-txt"> Assume C-UAS operations in urban environments and high-traffic areas are visible to media. All actions must be legally defensible and proportional.</span></div></div>
+      <div class="bi"><span class="bi-ico">🛫</span><div><span class="bi-lbl cn">Class B/C Airspace —</span><span class="bi-txt"> FAA NOTAM coordination and COA required before any active EW mitigation affecting NAS.</span></div></div>
+      <div class="bi"><span class="bi-ico">🗺</span><div><span class="bi-lbl cn">Jurisdictional Boundaries —</span><span class="bi-txt"> Military installation perimeters may not align with municipal, county, or state authority lines. Map boundaries pre-incident.</span></div></div>
+    </div>
+  </div>
+</div>
+```
+
+  </div><!-- /cols3 -->
+
+  <div class="doc-footer">
+    <div class="df-l">JIATF-401 Training Division · C-UAS Interagency Framework</div>
+    <div class="df-c">10 U.S.C. §130i · 6 U.S.C. §124n · FAA JO 7200.23 · DoDD 5200.08 · CJCSI 3255.01</div>
+    <div class="df-r">UNCLASSIFIED // FOR TRAINING USE ONLY // NOT FOR OPERATIONAL PLANNING</div>
+  </div>
+
+</div><!-- /doc-page field guide -->
+</div><!-- /guide-wrap -->
+</div><!-- /panel-fg -->
+
+<!-- ════════════════════════════════════════════════════════
+     PANEL 2 — COMMANDER'S DECISION SUPPORT GUIDE
+════════════════════════════════════════════════════════ -->
+
+<div id="panel-cdsg" class="panel">
+<div class="guide-wrap" style="background:#111111;background-color:#111111;padding:16px 12px 24px;display:flex;flex-direction:column;gap:16px;">
+
+  <!-- PAGE 1: PREPARE -->
+
+  <div class="doc-page">
+    <div class="mhdr">
+      <div class="mhdr-left">
+        <div class="mhdr-eyebrow">⬡ JIATF-401 · Commander's Decision Support Guide · Series 2 of 2 · Page 1 of 2</div>
+        <div class="mhdr-title">C-UAS <span>Commander's</span> Decision Support Guide</div>
+        <div class="mhdr-sub">Fixed Site Urban Defense · Group 1 &amp; 2 UAS Defeat · §130i Facilities &amp; Assets (DoD) / §124n Facilities &amp; Assets (DHS)</div>
+      </div>
+      <div class="mhdr-right">
+        <span class="badge bg-g">✓ UNCLASSIFIED</span>
+        <span class="badge bg-a">TRAINING USE ONLY</span>
+        <span class="badge bg-o">GROUP 1 &amp; 2 UAS</span>
+      </div>
+    </div>
+
+```
+<div class="sec-lbl sl-prep"><div class="sl-num" style="background:var(--gold2);color:var(--navy);">I</div>PHASE 1 — PREPARE: Know Your Threat &amp; Build Your Stack Before the UAS Arrives</div>
+
+<div class="cols3">
+  <!-- Group 1 -->
+  <div class="col">
+    <div class="chdr chh-steel"><span class="chdr-icon">🔵</span><div><div class="chdr-title">Group 1 UAS — Threat Profile</div><div class="chdr-sub">Small / Micro · &lt;20 lbs · &lt;1,200 ft AGL · &lt;100 kts</div></div></div>
+    <div class="illus" style="background:linear-gradient(180deg,#1B2A3E 0%,#0D1020 100%);">
+      <div class="illus-figs"><span style="font-size:22px;filter:brightness(0) invert(0.25);">🚁</span><span style="font-size:16px;color:#E0A800;opacity:0.7;">📡</span><span style="font-size:18px;filter:brightness(0) invert(0.22);">🚁</span><span style="font-size:20px;filter:brightness(0) invert(0.2);">🚁</span></div>
+      <div class="illus-sky"><div class="bldg" style="width:12px;height:20px;"></div><div class="bldg" style="width:8px;height:26px;"></div><div class="bldg" style="width:16px;height:14px;"></div><div class="bldg" style="width:10px;height:22px;"></div><div class="bldg" style="width:18px;height:16px;"></div></div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-steel"><span class="sbh-ico">🔵</span><span class="sbh-txt">Group 1 Characteristics</span><span class="sbh-sub">— DJI Mavic/Phantom, FPV racers, fixed-wing micro</span></div>
+      <div class="sbb sb-blue">
+        <div class="bi"><span class="bi-ico">⚖</span><div><span class="bi-lbl cs">Weight: </span><span class="bi-txt">Up to 20 lbs (9 kg). Max takeoff weight includes payload (camera, drop mechanism, IED).</span></div></div>
+        <div class="bi"><span class="bi-ico">✈</span><div><span class="bi-lbl cs">Altitude: </span><span class="bi-txt">Typically &lt;1,200 ft AGL. Can navigate building corridors, courtyards, and interior spaces.</span></div></div>
+        <div class="bi"><span class="bi-ico">💨</span><div><span class="bi-lbl cs">Speed: </span><span class="bi-txt">&lt;100 knots. FPV variants can exceed 80+ mph in sprint — difficult to track optically.</span></div></div>
+        <div class="bi"><span class="bi-ico">📻</span><div><span class="bi-lbl cs">Control Link: </span><span class="bi-txt">2.4 / 5.8 GHz RF. Some autonomous / GPS-guided variants operate without active uplink. Tethered and fly-by-wire variants may have no detectable RF signature — do not rely on RF detection alone.</span></div></div>
+        <div class="bi"><span class="bi-ico">🎯</span><div><span class="bi-lbl cs">Threat Vector: </span><span class="bi-txt">ISR, propaganda, precision payload delivery, swarm element, IED delivery, kamikaze strike.</span></div></div>
+        <div class="bi"><span class="bi-ico">🌆</span><div><span class="bi-lbl cs">Urban Signature: </span><span class="bi-txt">Small radar cross-section. Low acoustic. Easily confused with civilian recreational UAS in urban environments and high-traffic areas.</span></div></div>
+      </div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-navy"><span class="sbh-ico">⚠</span><span class="sbh-txt">Group 1 Urban Risk Factors</span></div>
+      <div class="sbb sb-gray">
+        <div class="al a-danger"><span class="al-ico">🚨</span><span><strong>Proximity Threat:</strong> Can approach from any direction including vertically, from adjacent civilian buildings, rooftops, or nearby waterways in urban environments and high-traffic areas.</span></div>
+        <div class="al a-warn"><span class="al-ico">⚠</span><span><strong>Deconfliction Challenge:</strong> Heavily overlaps with authorized civilian UAS traffic. Authorization check is MANDATORY before any mitigation action.</span></div>
+        <div class="al a-info"><span class="al-ico">🔵</span><span><strong>Swarm Capable:</strong> Multiple Group 1 UAS can operate simultaneously to saturate detection and overwhelm sequential engagement cycles.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Group 2 -->
+  <div class="col">
+    <div class="chdr chh-red"><span class="chdr-icon">🔴</span><div><div class="chdr-title">Group 2 UAS — Threat Profile</div><div class="chdr-sub">Small / Medium · 21–55 lbs · &lt;3,500 ft AGL · &lt;250 kts</div></div></div>
+    <div class="illus" style="background:linear-gradient(180deg,#2A1010 0%,#0D0808 100%);">
+      <div class="illus-figs"><span style="font-size:26px;filter:brightness(0) invert(0.25);">🚁</span><span style="font-size:14px;color:#FFD080;opacity:0.7;">📡</span><span style="font-size:22px;filter:brightness(0) invert(0.2);">✈</span><span style="font-size:22px;filter:brightness(0) invert(0.22);">🚁</span></div>
+      <div class="illus-sky"><div class="bldg" style="width:14px;height:24px;"></div><div class="bldg" style="width:10px;height:30px;"></div><div class="bldg" style="width:20px;height:16px;"></div><div class="bldg" style="width:8px;height:26px;"></div><div class="bldg" style="width:16px;height:20px;"></div></div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-red"><span class="sbh-ico">🔴</span><span class="sbh-txt">Group 2 Characteristics</span><span class="sbh-sub">— DJI Matrice, tactical fixed-wing, VTOL hybrids</span></div>
+      <div class="sbb sb-red">
+        <div class="bi"><span class="bi-ico">⚖</span><div><span class="bi-lbl cr">Weight: </span><span class="bi-txt">21–55 lbs (10–25 kg). Capable of carrying EFP, chemical dispersal, or multi-sensor ISR package.</span></div></div>
+        <div class="bi"><span class="bi-ico">✈</span><div><span class="bi-lbl cr">Altitude: </span><span class="bi-txt">&lt;3,500 ft AGL. Operates above rooftop clutter, exploiting detection gaps in urban terrain.</span></div></div>
+        <div class="bi"><span class="bi-ico">💨</span><div><span class="bi-lbl cr">Speed: </span><span class="bi-txt">Up to 250 knots. Fixed-wing variants provide standoff ISR and precision delivery at speed.</span></div></div>
+        <div class="bi"><span class="bi-ico">📻</span><div><span class="bi-lbl cr">Control Link: </span><span class="bi-txt">Advanced datalinks; LTE/cellular relay possible. Autonomous / pre-programmed flight reduces RF signature. Tethered and fly-by-wire variants produce no RF emissions — requires optical/acoustic/radar detection.</span></div></div>
+        <div class="bi"><span class="bi-ico">🎯</span><div><span class="bi-lbl cr">Threat Vector: </span><span class="bi-txt">Sustained ISR, precision strike, standoff jamming, coordinated attack (lead element for Group 1 swarm).</span></div></div>
+        <div class="bi"><span class="bi-ico">🌆</span><div><span class="bi-lbl cr">Urban Signature: </span><span class="bi-txt">Larger radar return than Group 1. May ingress over civilian airspace making engagement legally complex.</span></div></div>
+      </div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-navy"><span class="sbh-ico">⚠</span><span class="sbh-txt">Group 2 Urban Risk Factors</span></div>
+      <div class="sbb sb-gray">
+        <div class="al a-danger"><span class="al-ico">🚨</span><span><strong>Payload Threat:</strong> Sufficient lift capacity for directed-energy payloads, IEDs, or CBRN dispersal devices. Treat as a potential mass casualty vector at NSSES.</span></div>
+        <div class="al a-warn"><span class="al-ico">⚠</span><span><strong>Airspace Overlap:</strong> Altitude band overlaps with helicopters, low-flying aircraft operating in DC SFRA. Positive identification before kinetic action is non-negotiable.</span></div>
+        <div class="al a-orange"><span class="al-ico">🔶</span><span><strong>Autonomous Operation:</strong> May fly pre-programmed route with no active RF uplink — jamming alone is insufficient. Kinetic options must be pre-authorized.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pre-Mission Checklist -->
+  <div class="col">
+    <div class="chdr chh-navy"><span class="chdr-icon">📋</span><div><div class="chdr-title">Commander's Pre-Mission Preparation</div><div class="chdr-sub">Complete before assuming C-UAS responsibility at fixed site</div></div></div>
+    <div class="illus" style="background:linear-gradient(180deg,#1B2A3E 0%,#0A1428 100%);">
+      <div class="illus-figs"><span style="font-size:24px;filter:brightness(0) invert(0.2);">🪖</span><span style="font-size:18px;filter:brightness(0) invert(0.25);">📋</span><span style="font-size:22px;filter:brightness(0) invert(0.2);">🪖</span><span style="font-size:18px;filter:brightness(0) invert(0.22);">🏛</span><span style="font-size:20px;filter:brightness(0) invert(0.2);">🪖</span></div>
+      <div class="illus-sky"><div class="bldg" style="width:16px;height:18px;"></div><div class="bldg" style="width:10px;height:28px;"></div><div class="bldg" style="width:22px;height:14px;"></div><div class="bldg" style="width:12px;height:24px;"></div><div class="bldg" style="width:14px;height:20px;"></div></div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-navy"><span class="sbh-ico">⚖</span><span class="sbh-txt">Authority Confirmation</span><span class="sbh-sub">— Must be confirmed before assuming post</span></div>
+      <div class="sbb sb-blue">
+        <div class="cl">
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">§130i / §124n:</span> Written delegation received from SecDef or SecDHS-designated authority. Know your authority boundaries.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">ROE Card:</span> Current ROE/RUF card reviewed, signed, and carried. Know escalation thresholds for Groups 1 and 2 separately.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">FAA Coordination:</span> FAA ATCSCC contact confirmed. COA/NOTAM status checked. TFR active status confirmed (DC SFRA).</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">ICC Staffed:</span> Interagency Coordination Cell manned and comms tested. §130i ↔ §124n handoff protocol rehearsed.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-steel"><span class="sbh-ico">🔧</span><span class="sbh-txt">Equipment &amp; Sensor Checks</span></div>
+      <div class="sbb sb-gray">
+        <div class="cl">
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">RF Sensors:</span> All RF detection systems calibrated. Urban RF clutter baseline established. Known-friendly UAS signatures loaded.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">EO/IR:</span> Optical and thermal cameras operational. Rooftop OP positions manned with overlapping fields of view.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">EW Systems:</span> Directional jammers checked. Frequency authorizations confirmed. Broadcast range mapped against civilian infrastructure.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">Comms:</span> Primary and alternate comms tested to all nodes: ICC, FAA, FBI, State/Local LE, higher HQ.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-gold"><span class="sbh-ico">🗺</span><span class="sbh-txt">Site Awareness</span><span class="sbh-sub">— Know the ground before the threat arrives</span></div>
+      <div class="sbb sb-gold">
+        <div class="cl">
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">Jurisdiction Map:</span> §130i / §124n boundary lines plotted on site map. Municipal, county, and state LE zones marked.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">Hazard Map:</span> Hospital locations, emergency comms towers, GPS-dependent infrastructure, and no-jam zones identified.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">Blind Spots:</span> Building masking zones mapped. Vertical scan responsibilities assigned. No gap in rooftop/balcony coverage.</span></div>
+          <div class="cl-i"><div class="cl-box"></div><span><span class="cl-lbl">Evacuation Routes:</span> Civilian evacuation corridors marked. Local LE assigned perimeter responsibility before any active mitigation.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="kfbar"><span class="kf-lbl">⚠ Commanders Note:</span><span> At NSSES sites and high-traffic urban installations, §130i and §124n authorities may be simultaneously active. Know which agency holds primacy at your specific grid before any action.</span></div>
+  </div>
+</div><!-- /cols3 page1 -->
+
+<div class="doc-footer">
+  <div class="df-l">JIATF-401 Training Division · Commander's Decision Support Guide · Page 1 of 2</div>
+  <div class="df-c">10 U.S.C. §130i · 6 U.S.C. §124n · CJCSI 3255.01 · DoDD 5200.08 · FAA JO 7200.23</div>
+  <div class="df-r">UNCLASSIFIED // FOR TRAINING USE ONLY // NOT FOR OPERATIONAL PLANNING</div>
+</div>
+```
+
+  </div><!-- /doc-page 1 -->
+
+  <!-- PAGE 2: EXECUTE & FOLLOW-ON -->
+
+  <div class="doc-page">
+    <div class="mhdr">
+      <div class="mhdr-left">
+        <div class="mhdr-eyebrow">⬡ JIATF-401 · Commander's Decision Support Guide · Series 2 of 2 · Page 2 of 2</div>
+        <div class="mhdr-title">Execute &amp; <span>Follow-On:</span> Defeat the Threat · Preserve the Mission</div>
+        <div class="mhdr-sub">Recommended Employment Techniques · Decision Matrix · Post-Engagement Actions · §130i / §124n Compliance</div>
+      </div>
+      <div class="mhdr-right">
+        <span class="badge bg-g">✓ UNCLASSIFIED</span>
+        <span class="badge bg-a">TRAINING USE ONLY</span>
+        <span class="badge bg-o">GROUP 1 &amp; 2 UAS</span>
+      </div>
+    </div>
+
+```
+<div class="sec-lbl sl-exec"><div class="sl-num" style="background:var(--orange2);color:#fff;">II</div>PHASE 2 — EXECUTE: Engagement Decision Cycle &amp; Best Employment Techniques</div>
+
+<div class="cols3">
+  <!-- Decision Cycle -->
+  <div class="col">
+    <div class="chdr chh-orange"><span class="chdr-icon">🧭</span><div><div class="chdr-title">Commander's Engagement Decision Cycle</div><div class="chdr-sub">Ask these questions in order — every time</div></div></div>
+    <div style="padding:5px 6px 0;">
+      <div class="dtree"><div class="dt-q">① Is the UAS authorized? (COA / LAANC / federal mission?)</div><div class="dt-opts"><div class="dt-yes"><span class="dt-ans ay">✔ YES → STAND DOWN</span>Log observation. Do not engage. Notify ICC and FAA of UAS presence. Continue monitoring.</div><div class="dt-no"><span class="dt-ans an">✗ NO / UNKNOWN → CONTINUE ▼</span>Treat as hostile pending further identification. Increase sensor coverage. Alert team.</div></div></div>
+      <div class="conn">▼</div>
+      <div class="dtree"><div class="dt-q">② Does it pose a credible threat to the covered facility?</div><div class="dt-opts"><div class="dt-yes"><span class="dt-ans ay">✔ CREDIBLE → CONTINUE ▼</span>Anomalous flight behavior, approach vector toward facility, payload indicators, or hostile classification.</div><div class="dt-no"><span class="dt-ans an">✗ NO THREAT → MONITOR</span>Continue layered observation. Notify FAA if in controlled airspace. Do not escalate. Document.</div></div></div>
+      <div class="conn">▼</div>
+      <div class="dtree"><div class="dt-q">③ Which authority applies — §130i (DoD) or §124n (DHS) or both?</div><div class="dt-opts"><div class="dt-yes"><span class="dt-ans ay">§130i — DoD space</span>Site commander holds delegation. Engage within ROE. Notify FAA. FBI notification if criminal nexus.</div><div class="dt-no"><span class="dt-ans an">§124n — DHS space / transit</span>DHS component head authority. Activate ICC for handoff. Coordinate before any action.</div></div></div>
+      <div class="conn">▼</div>
+      <div class="dtree"><div class="dt-q">④ What is the Group classification — 1 or 2?</div><div class="dt-opts"><div class="dt-yes"><span class="dt-ans ay">GROUP 1 (&lt;20 lbs)</span>RF disruption preferred. FPV/autonomous variant? Consider kinetic if RF ineffective. Urban backdrop check required.</div><div class="dt-no"><span class="dt-ans an">GROUP 2 (21–55 lbs)</span>Higher threat level. Expanded mitigation options. Payload concern elevated. Kinetic pre-authorization check required now.</div></div></div>
+      <div class="conn">▼</div>
+      <div class="dtree"><div class="dt-q">⑤ Is the urban backdrop clear for kinetic or high-power EW action?</div><div class="dt-opts"><div class="dt-yes"><span class="dt-ans ay">✔ CLEAR → ENGAGE</span>Execute mitigation at lowest effective level. Directed RF → GNSS denial → Kinetic. Document every action.</div><div class="dt-no"><span class="dt-ans an">✗ NOT CLEAR → EW ONLY</span>Electronic countermeasures only. No kinetic. Coordinate with local LE to clear area. Reassess every 60 seconds.</div></div></div>
+      <div class="al a-danger" style="margin:5px 6px 0;"><span class="al-ico">🚨</span><span><strong>Non-Negotiable:</strong> FAA notification is required before ANY active mitigation that could affect the National Airspace System — including all EW actions. This applies under both §130i and §124n.</span></div>
+    </div>
+  </div>
+
+  <!-- Employment Techniques -->
+  <div class="col">
+    <div class="chdr chh-navy"><span class="chdr-icon">⚔</span><div><div class="chdr-title">Recommended Employment Techniques</div><div class="chdr-sub">Prioritized — employ lowest effective option first</div></div></div>
+    <div style="padding:5px 6px 0;">
+      <div class="tc th-blue"><div class="tc-hdr"><div class="tc-rank">1</div><div class="tc-lbl">Directed RF Disruption (Jamming)</div><div class="tc-tags"><span class="ttag tt-g12">Grp 1 &amp; Grp 2</span><span class="ttag tt-both">§130i / §124n</span><span class="ttag tt-urb">Urban ⚠</span></div></div><div class="tc-body"><strong>Best Against:</strong> RF-controlled UAS (2.4/5.8 GHz). Group 1 quadcopters, DJI-type platforms.<br><strong>Employment:</strong> Narrowband directional emitters aimed at UAS. Map beam against hospital, emergency comms, and airport ILS corridors before activation.<br><strong>Limitations:</strong> Ineffective against pre-programmed/autonomous UAS. Urban reflections can cause unintended interference.<br><strong>Authority:</strong> SecDef / SecDHS delegation to site commander. FAA ATCSCC notified.</div></div>
+      <div class="tc th-purple"><div class="tc-hdr"><div class="tc-rank">2</div><div class="tc-lbl">GNSS Denial / Spoofing</div><div class="tc-tags"><span class="ttag tt-g12">Grp 1 &amp; Grp 2</span><span class="ttag tt-auth">Auth Req'd</span><span class="ttag tt-urb">Urban ⚠</span></div></div><div class="tc-body"><strong>Best Against:</strong> GPS-guided autonomous UAS operating without active RF uplink. Disrupts waypoint navigation and return-to-home functions.<br><strong>Employment:</strong> Directional GNSS denial only. Pre-map denial cone against GPS-dependent infrastructure (emergency services, transport).<br><strong>Limitations:</strong> Significant collateral risk in dense urban environment. May trigger FAA incident reporting requirements.<br><strong>Authority:</strong> Specific SecDef / SecDHS delegation AND confirmed FAA coordination.</div></div>
+      <div class="tc th-orange"><div class="tc-hdr"><div class="tc-rank">3</div><div class="tc-lbl">Net / Capture Systems</div><div class="tc-tags"><span class="ttag tt-g1">Grp 1 Primary</span><span class="ttag tt-both">§130i / §124n</span></div></div><div class="tc-body"><strong>Best Against:</strong> Slow-moving Group 1 UAS in confined airspace. Preserves UAS for exploitation and evidence collection (FBI chain of custody).<br><strong>Employment:</strong> Ground-launched net guns, drone-deployed capture nets. Effective at close range (&lt;100m).<br><strong>Advantage:</strong> No RF emissions. No kinetic risk. Preserves evidence for criminal prosecution or intelligence exploitation.</div></div>
+      <div class="tc th-red"><div class="tc-hdr"><div class="tc-rank">4</div><div class="tc-lbl">Kinetic Defeat (Last Resort)</div><div class="tc-tags"><span class="ttag tt-g2">Grp 2 Priority</span><span class="ttag tt-auth">Cmd Auth Req'd</span><span class="ttag tt-urb">Backdrop Critical</span></div></div><div class="tc-body"><strong>Best Against:</strong> Autonomous Group 2 UAS immune to EW. High-confidence payload threat. All EW options exhausted.<br><strong>Employment:</strong> Small arms, counter-UAS projectile systems, or directed-energy kinetic. Requires: (a) clear urban backdrop confirmed, (b) command authority confirmed, (c) ROE compliance verified, (d) FAA notified.<br><strong>Limitations:</strong> Falling debris risk in urban environment. Payload detonation on impact possible with Group 2.</div></div>
+      <div class="tc th-green"><div class="tc-hdr"><div class="tc-rank">5</div><div class="tc-lbl">Counter-UAS (Drone-on-Drone)</div><div class="tc-tags"><span class="ttag tt-g12">Grp 1 &amp; Grp 2</span><span class="ttag tt-both">§130i / §124n</span></div></div><div class="tc-body"><strong>Best Against:</strong> Identified Grp 1 / Grp 2 UAS where EW is constrained by urban infrastructure. Intercept UAS can ram, net, or trail hostile UAS.<br><strong>Employment:</strong> Pre-positioned interceptor UAS launched on cue from RF/EO sensor track. Requires BVLOS authorization from FAA.<br><strong>Advantage:</strong> Precision engagement with minimal RF signature. Can operate in no-jam zones where EW is prohibited.</div></div>
+    </div>
+  </div>
+
+  <!-- Matrix + Swarm + ROE -->
+  <div class="col">
+    <div class="chdr chh-purple"><span class="chdr-icon">📊</span><div><div class="chdr-title">Effectiveness Matrix &amp; Swarm Protocol</div><div class="chdr-sub">By threat type · Urban environment adjusted</div></div></div>
+    <div class="sb">
+      <div class="sbh sbhh-purple"><span class="sbh-ico">📊</span><span class="sbh-txt">Effectiveness by Threat Variant</span></div>
+      <div class="sbb sb-purple" style="padding:4px 5px;">
+        <table class="mx">
+          <thead><tr><th class="mth-n mt-l" style="width:82px;">Technique</th><th class="mth-s">Grp 1<br>RF Ctrl</th><th class="mth-s">Grp 1<br>Auto</th><th class="mth-r">Grp 2<br>RF Ctrl</th><th class="mth-r">Grp 2<br>Auto</th><th class="mth-n">Swarm</th></tr></thead>
+          <tbody>
+            <tr><td class="mt-l">RF Jamming</td><td class="mt-g">HIGH</td><td class="mt-r">LOW</td><td class="mt-g">HIGH</td><td class="mt-r">LOW</td><td class="mt-y">MED</td></tr>
+            <tr><td class="mt-l">GNSS Denial</td><td class="mt-y">MED</td><td class="mt-g">HIGH</td><td class="mt-y">MED</td><td class="mt-g">HIGH</td><td class="mt-y">MED</td></tr>
+            <tr><td class="mt-l">Net/Capture</td><td class="mt-g">HIGH</td><td class="mt-y">MED</td><td class="mt-y">MED</td><td class="mt-r">LOW</td><td class="mt-r">LOW</td></tr>
+            <tr><td class="mt-l">Kinetic</td><td class="mt-y">MED</td><td class="mt-g">HIGH</td><td class="mt-g">HIGH</td><td class="mt-g">HIGH</td><td class="mt-y">MED</td></tr>
+            <tr><td class="mt-l">Counter-UAS</td><td class="mt-g">HIGH</td><td class="mt-g">HIGH</td><td class="mt-y">MED</td><td class="mt-y">MED</td><td class="mt-y">MED</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sb">
+      <div class="sbh sbhh-red"><span class="sbh-ico">🐝</span><span class="sbh-txt">Swarm Engagement Protocol</span><span class="sbh-sub">— Multiple simultaneous Group 1 / mixed Grp 1 + Grp 2</span></div>
+      <div class="sbb sb-red">
+        <div class="bi"><span class="bi-ico">1️⃣</span><div><span class="bi-lbl cr">Prioritize: </span><span class="bi-txt">Identify and defeat any Group 2 element first — highest payload risk. Assign dedicated sensor/shooter to Grp 2 track.</span></div></div>
+        <div class="bi"><span class="bi-ico">2️⃣</span><div><span class="bi-lbl cr">Saturate RF: </span><span class="bi-txt">Activate all directional RF jammers simultaneously across the swarm approach vector.</span></div></div>
+        <div class="bi"><span class="bi-ico">3️⃣</span><div><span class="bi-lbl cr">Sector Assignment: </span><span class="bi-txt">Assign each team member a sector. Prevent fixation on single UAS — swarm is designed to create tunnel vision.</span></div></div>
+        <div class="bi"><span class="bi-ico">4️⃣</span><div><span class="bi-lbl cr">Mass Casualty Alert: </span><span class="bi-txt">Mass UAS attack = potential CBRN / IED delivery. Initiate emergency evacuation of protected area in parallel with engagement.</span></div></div>
+      </div>
+    </div>
+    <div class="roe-box">
+      <div class="roe-title">⚖ ROE Quick Reference — Urban Fixed Site</div>
+      <div class="roe-grid">
+        <div class="roe-i"><strong>Warn First</strong>Attempt warning where tactically feasible and time permits. Light signals, radio broadcast to operator.</div>
+        <div class="roe-i"><strong>Proportionality</strong>Use lowest effective means. Escalate only when lower options fail or insufficient time.</div>
+        <div class="roe-i"><strong>Positive ID</strong>Confirm threat and authority before any countermeasure. Doubt = do not engage kinetically.</div>
+        <div class="roe-i"><strong>Backdrop Clear</strong>Kinetic requires confirmed clear backdrop. Abort if civilian presence in danger zone.</div>
+        <div class="roe-i"><strong>No Broad EW</strong>Broad-spectrum jamming prohibited near hospitals, emergency services, airport ILS.</div>
+        <div class="roe-i"><strong>Document All</strong>Every action documented in real time. Time, location, UAS description, authority exercised.</div>
+      </div>
+    </div>
+  </div>
+</div><!-- /cols3 execute -->
+
+<div class="sec-lbl sl-follow"><div class="sl-num" style="background:var(--green2);color:#fff;">III</div>PHASE 3 — FOLLOW-ON ACTIONS: Post-Engagement · Reporting · Reset · Lessons Learned</div>
+
+<div class="cols4">
+  <!-- Immediate -->
+  <div class="col">
+    <div class="chdr chh-red"><span class="chdr-icon">⏱</span><div><div class="chdr-title">Immediate (0–15 min)</div><div class="chdr-sub">On-site actions after engagement ends</div></div></div>
+    <div style="padding:5px 6px;">
+      <div class="tl-step"><div class="tl-num" style="background:var(--red2);color:#fff;">1</div><div><div class="tl-title" style="color:var(--red2);">Cease Fire / Secure</div><div class="tl-body">Confirm threat neutralized. Cease all active EW and kinetic. Restore normal FAA airspace status. Alert all sensors to resume monitoring posture.</div></div></div>
+      <div class="tl-step"><div class="tl-num" style="background:var(--red2);color:#fff;">2</div><div><div class="tl-title" style="color:var(--red2);">Site Security / Cordon</div><div class="tl-body">If UAS downed: establish 25-meter cordon. Treat as potential IED. Do NOT approach until EOD clearance. Notify FBI if criminal nexus.</div></div></div>
+      <div class="tl-step"><div class="tl-num" style="background:var(--red2);color:#fff;">3</div><div><div class="tl-title" style="color:var(--red2);">Casualties / Collateral</div><div class="tl-body">Assess friendly casualties and any civilian collateral effects. Initiate medical response. Document injuries and property damage for legal review.</div></div></div>
+      <div class="tl-step"><div class="tl-num" style="background:var(--red2);color:#fff;">4</div><div><div class="tl-title" style="color:var(--red2);">Higher HQ Notification</div><div class="tl-body">Notify higher HQ immediately. Pass: SALUTE report on UAS, action taken, authority exercised (§130i / §124n), current site status, collateral assessment.</div></div></div>
+    </div>
+  </div>
+  <!-- Reporting -->
+  <div class="col">
+    <div class="chdr chh-orange"><span class="chdr-icon">📋</span><div><div class="chdr-title">Reporting (15 min – 24 hr)</div><div class="chdr-sub">Statutory and operational reporting requirements</div></div></div>
+    <div style="padding:5px 6px;">
+      <div class="sb"><div class="sbh sbhh-red"><span class="sbh-ico">⚡</span><span class="sbh-txt">Within 1 Hour — INTREP</span></div><div class="sbb sb-red"><div class="bi"><span class="bi-ico">📝</span><span class="bi-txt">Submit Incident Report: time/date, site location, UAS group/type, approach vector, threat indicators, action taken, authority exercised (§130i or §124n), collateral effects, current status.</span></div></div></div>
+      <div class="sb"><div class="sbh sbhh-navy"><span class="sbh-ico">✈</span><span class="sbh-txt">Immediate — FAA Notification</span></div><div class="sbb sb-blue"><div class="bi"><span class="bi-ico">📞</span><span class="bi-txt">Notify FAA ATCSCC: frequencies affected, duration of EW, geographic footprint, type of mitigation, and whether NAS was impacted. Coordinate NOTAM closure if TFR was activated.</span></div></div></div>
+      <div class="sb"><div class="sbh sbhh-steel"><span class="sbh-ico">🔵</span><span class="sbh-txt">Within 4 Hours — Applicable Law Enforcement</span></div><div class="sbb sb-gray"><div class="bi"><span class="bi-ico">📞</span><span class="bi-txt">If UAS recovered: notify applicable law enforcement (FBI, state, or local LE depending on jurisdiction) for criminal investigation determination. Preserve chain of custody — do not handle UAS without gloves. Do not power down if found active.</span></div></div></div>
+      <div class="sb"><div class="sbh sbhh-orange"><span class="sbh-ico">⚖</span><span class="sbh-txt">Within 24 Hours — Legal Review</span></div><div class="sbb sb-orange"><div class="bi"><span class="bi-ico">⚖</span><span class="bi-txt">JAG (DoD) or Chief Counsel (DHS) reviews all mitigation actions. Proportionality assessment. Document authority basis for each action. Flag any ROE deviations for immediate review.</span></div></div></div>
+    </div>
+  </div>
+  <!-- Exploitation -->
+  <div class="col">
+    <div class="chdr chh-steel"><span class="chdr-icon">🔍</span><div><div class="chdr-title">Exploitation &amp; Intelligence</div><div class="chdr-sub">Turn the engagement into advantage</div></div></div>
+    <div style="padding:5px 6px;">
+      <div class="sb">
+        <div class="sbh sbhh-steel"><span class="sbh-ico">🔍</span><span class="sbh-txt">UAS Exploitation (if recovered)</span></div>
+        <div class="sbb sb-blue">
+          <div class="bi"><span class="bi-ico">📷</span><div><span class="bi-lbl cs">Document in place: </span><span class="bi-txt">Photograph UAS before any handling. Note final position, orientation, and any payload indicators visible.</span></div></div>
+          <div class="bi"><span class="bi-ico">🔬</span><div><span class="bi-lbl cs">EOD Clearance: </span><span class="bi-txt">No handling until EOD confirms safe. Group 2 payload risk requires bomb squad before any exploitation begins.</span></div></div>
+          <div class="bi"><span class="bi-ico">💻</span><div><span class="bi-lbl cs">Digital Forensics: </span><span class="bi-txt">Preserve flight logs, SD cards, and control hardware. Pass to FBI/NCIS for exploitation. Do not factory-reset or power cycle.</span></div></div>
+          <div class="bi"><span class="bi-ico">🏷</span><div><span class="bi-lbl cs">Serial Numbers: </span><span class="bi-txt">Document all serial numbers (airframe, battery, controller). FAA UAS registry lookup may identify registered owner.</span></div></div>
+        </div>
+      </div>
+      <div class="sb">
+        <div class="sbh sbhh-navy"><span class="sbh-ico">📡</span><span class="sbh-txt">RF / Signal Intelligence</span></div>
+        <div class="sbb sb-gray">
+          <div class="bi"><span class="bi-ico">📻</span><div><span class="bi-lbl cn">Frequency Log: </span><span class="bi-txt">Document all frequencies detected during engagement. Pass to SIGINT/TECHINT for operator attribution.</span></div></div>
+          <div class="bi"><span class="bi-ico">📍</span><div><span class="bi-lbl cn">Control Node: </span><span class="bi-txt">If RF bearing obtained during engagement, pass to FBI for ground search of operator location. Time-stamp all bearing data.</span></div></div>
+          <div class="bi"><span class="bi-ico">🔄</span><div><span class="bi-lbl cn">Pattern Update: </span><span class="bi-txt">Update site RF baseline with new signature data. Adjust detection thresholds to improve future detection speed for this threat type.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Reset & LL -->
+  <div class="col">
+    <div class="chdr chh-green"><span class="chdr-icon">🔄</span><div><div class="chdr-title">Reset &amp; Lessons Learned</div><div class="chdr-sub">Restore posture · Improve the system</div></div></div>
+    <div style="padding:5px 6px;">
+      <div class="sb">
+        <div class="sbh sbhh-green"><span class="sbh-ico">🔄</span><span class="sbh-txt">System Reset (2–6 Hours)</span></div>
+        <div class="sbb sb-green">
+          <div class="cl">
+            <div class="cl-i"><div class="cl-box"></div><span>All EW systems returned to standby. Frequencies recalibrated post-engagement.</span></div>
+            <div class="cl-i"><div class="cl-box"></div><span>Sensor positions reassessed — reposition if electronic signature was emitted during engagement.</span></div>
+            <div class="cl-i"><div class="cl-box"></div><span>Team debriefed on engagement. Identify sensor gaps, response delays, coordination failures.</span></div>
+            <div class="cl-i"><div class="cl-box"></div><span>ICC notified of system reset complete and return to full detection posture.</span></div>
+            <div class="cl-i"><div class="cl-box"></div><span>Confirm FAA TFR/NOTAM status updated. Reconfirm DC SFRA coordination in place.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sb">
+        <div class="sbh sbhh-gold"><span class="sbh-ico">📚</span><span class="sbh-txt">Lessons Learned</span></div>
+        <div class="sbb sb-gold">
+          <div class="bi"><span class="bi-ico">❓</span><div><span class="bi-lbl cgo">Detection: </span><span class="bi-txt">How was the UAS first detected? How long from first detection to positive ID? What sensors were most effective?</span></div></div>
+          <div class="bi"><span class="bi-ico">❓</span><div><span class="bi-lbl cgo">Decision Speed: </span><span class="bi-txt">Was the §130i / §124n authority determination made quickly enough? Did the ICC handoff protocol work?</span></div></div>
+          <div class="bi"><span class="bi-ico">❓</span><div><span class="bi-lbl cgo">Technique Effectiveness: </span><span class="bi-txt">Did the first mitigation technique work? If not, why not? Autonomous UAS? RF resilient platform?</span></div></div>
+          <div class="bi"><span class="bi-ico">❓</span><div><span class="bi-lbl cgo">Urban Constraints: </span><span class="bi-txt">Did civilian presence, infrastructure, or airspace complexity limit options? How can the site plan improve?</span></div></div>
+        </div>
+      </div>
+      <div class="kfbar" style="margin:4px 0 0 0;"><span class="kf-lbl">📌 Final Note:</span><span> Every engagement is a training data point. Lessons identified must become lessons learned — update your site defense plan, sensor coverage map, and ICC protocols after every incident, drill, and exercise.</span></div>
+    </div>
+  </div>
+</div><!-- /cols4 follow-on -->
+
+<div class="doc-footer">
+  <div class="df-l">JIATF-401 Training Division · Commander's Decision Support Guide · Page 2 of 2</div>
+  <div class="df-c">10 U.S.C. §130i · 6 U.S.C. §124n · CJCSI 3255.01 · DoDD 5200.08 · FAA JO 7200.23 · ATP 3-01.81</div>
+  <div class="df-r">UNCLASSIFIED // FOR TRAINING USE ONLY // NOT FOR OPERATIONAL PLANNING</div>
+</div>
+```
+
+  </div><!-- /doc-page 2 -->
+
+</div><!-- /guide-wrap -->
+</div><!-- /panel-cdsg -->
+
+</div><!-- /content-area -->
+</div><!-- /app-shell -->
+
+<script>
+function switchTab(panelId, btn) {
+  // Update buttons
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Update panels
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + panelId).classList.add('active');
+  // Scroll to top of content
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+
+</div>
+</body>
+</html>
